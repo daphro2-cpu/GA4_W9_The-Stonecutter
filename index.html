@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GA5 Quick Review</title>
+  <style>
+    body {
+      font-family: "Century Gothic", sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 10px;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ef4444;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      color: #3b82f6;
+      margin-top: 0;
+    }
+
+    .word-block {
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+    }
+
+    .word-block:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .word-label {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin: 10px 0;
+    }
+
+    .letters {
+      margin: 10px 0;
+    }
+
+    .letters button {
+      margin: 5px;
+      padding: 10px 14px;
+      font-size: 22px;
+      font-weight: bold;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: #fef9c3;
+      cursor: pointer;
+      min-width: 52px;
+    }
+
+    .letters button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .word-feedback,
+    .check-feedback {
+      font-weight: bold;
+      margin-top: 8px;
+      min-height: 22px;
+    }
+
+    .correct {
+      color: #16a34a;
+    }
+
+    .wrong {
+      color: #dc2626;
+    }
+
+    .question {
+      margin-bottom: 18px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .question label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+
+    .drag-instructions {
+      margin-bottom: 14px;
+      font-size: 17px;
+    }
+
+    .drag-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 12px;
+      background: #eff6ff;
+      border-radius: 12px;
+      min-height: 60px;
+    }
+
+    .drag-item {
+      background: #dbeafe;
+      border: 2px solid #93c5fd;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: grab;
+      font-weight: bold;
+    }
+
+    .drop-zone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 12px;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      background: #f8fafc;
+      min-height: 56px;
+    }
+
+    .drop-zone.over {
+      background: #e0f2fe;
+      border-color: #38bdf8;
+    }
+
+    .drop-number {
+      font-weight: bold;
+      color: #2563eb;
+      min-width: 24px;
+    }
+
+    .slot {
+      flex: 1;
+      min-height: 32px;
+    }
+
+    .buttons {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button.action-btn {
+      padding: 10px 16px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.action-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .final-message {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+      min-height: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GA5 Quick Review</h1>
+    <div class="timer">⏱ Time: <span id="time">15</span>s</div>
+
+    <div class="section">
+      <h2>1. Build the Word</h2>
+      <p>Two letters are already there. Click the other letters to spell the word.</p>
+
+      <div class="word-block">
+        <div><strong>1.</strong></div>
+        <div class="word-label" id="display1">im</div>
+        <div class="letters" id="letters1"></div>
+        <div class="word-feedback" id="feedback1"></div>
+      </div>
+
+      <div class="word-block">
+        <div><strong>2.</strong></div>
+        <div class="word-label" id="display2">op</div>
+        <div class="letters" id="letters2"></div>
+        <div class="word-feedback" id="feedback2"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>2. Quick Comprehension</h2>
+
+      <div class="question">
+        <p><strong>1. What was the text mainly about?</strong></p>
+        <label><input type="radio" name="q1" value="correct"> People can have different opinions.</label>
+        <label><input type="radio" name="q1" value="wrong"> Everyone likes the same things.</label>
+      </div>
+
+      <div class="question">
+        <p><strong>2. Why do people have different opinions?</strong></p>
+        <label><input type="radio" name="q2" value="wrong"> Because they all think the same way.</label>
+        <label><input type="radio" name="q2" value="correct"> Because they have different ideas and values.</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>3. Put the Story in Order</h2>
+      <div class="drag-instructions">Drag each part into the correct order.</div>
+
+      <div class="drag-bank" id="dragBank">
+        <div class="drag-item" draggable="true" id="item1" data-order="2">He wanted to be someone stronger or more powerful.</div>
+        <div class="drag-item" draggable="true" id="item2" data-order="1">The stonecutter was not happy with his life.</div>
+        <div class="drag-item" draggable="true" id="item3" data-order="3">He kept changing, but he was still not satisfied.</div>
+        <div class="drag-item" draggable="true" id="item4" data-order="4">In the end, he learned to be happy as himself.</div>
+      </div>
+
+      <div class="drop-zone" data-slot="1">
+        <div class="drop-number">1.</div>
+        <div class="slot"></div>
+      </div>
+      <div class="drop-zone" data-slot="2">
+        <div class="drop-number">2.</div>
+        <div class="slot"></div>
+      </div>
+      <div class="drop-zone" data-slot="3">
+        <div class="drop-number">3.</div>
+        <div class="slot"></div>
+      </div>
+      <div class="drop-zone" data-slot="4">
+        <div class="drop-number">4.</div>
+        <div class="slot"></div>
+      </div>
+
+      <div class="check-feedback" id="sequenceFeedback"></div>
+    </div>
+
+    <div class="section">
+      <div class="buttons">
+        <button class="action-btn" onclick="checkAll()">Check Answers</button>
+        <button class="action-btn" onclick="resetAll()">Redo</button>
+      </div>
+      <div class="final-message" id="finalMessage"></div>
+    </div>
+  </div>
+
+  <script>
+    // ---------- sounds ----------
+    const audioClick = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
+    const audioCorrect = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+    const audioWrong = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+    const audioFinish = new Audio("https://actions.google.com/sounds/v1/cartoon/concussive_hit_guitar_boing.ogg");
+
+    function playSound(sound) {
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+    // ---------- word build ----------
+    const words = [
+      {
+        id: 1,
+        clue: "im",
+        remainingLetters: ["p", "a", "c", "t"],
+        answer: "impact"
+      },
+      {
+        id: 2,
+        clue: "op",
+        remainingLetters: ["i", "n", "i", "o", "n"],
+        answer: "opinion"
+      }
+    ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function buildWordButtons() {
+      words.forEach(word => {
+        const container = document.getElementById("letters" + word.id);
+        container.innerHTML = "";
+
+        const shuffled = shuffle(word.remainingLetters);
+        shuffled.forEach((letter, index) => {
+          const btn = document.createElement("button");
+          btn.textContent = letter;
+          btn.dataset.letter = letter;
+          btn.onclick = () => {
+            document.getElementById("display" + word.id).textContent += letter;
+            btn.disabled = true;
+            playSound(audioClick);
+            checkSingleWord(word.id);
+          };
+          container.appendChild(btn);
+        });
+
+        document.getElementById("display" + word.id).textContent = word.clue;
+        document.getElementById("feedback" + word.id).textContent = "";
+        document.getElementById("feedback" + word.id).className = "word-feedback";
+      });
+    }
+
+    function checkSingleWord(id) {
+      const word = words.find(w => w.id === id);
+      const current = document.getElementById("display" + id).textContent;
+      const feedback = document.getElementById("feedback" + id);
+
+      if (current.length === word.answer.length) {
+        if (current === word.answer) {
+          feedback.textContent = "Correct!";
+          feedback.className = "word-feedback correct";
+          playSound(audioCorrect);
+        } else {
+          feedback.textContent = "Try again.";
+          feedback.className = "word-feedback wrong";
+          playSound(audioWrong);
+        }
+      }
+    }
+
+    function getWordScore() {
+      let score = 0;
+      words.forEach(word => {
+        const current = document.getElementById("display" + word.id).textContent;
+        if (current === word.answer) score++;
+      });
+      return score;
+    }
+
+    // ---------- drag and drop ----------
+    let draggedItem = null;
+
+    function setupDragAndDrop() {
+      document.querySelectorAll(".drag-item").forEach(item => {
+        item.addEventListener("dragstart", () => {
+          draggedItem = item;
+        });
+      });
+
+      document.querySelectorAll(".drop-zone").forEach(zone => {
+        zone.addEventListener("dragover", e => {
+          e.preventDefault();
+          zone.classList.add("over");
+        });
+
+        zone.addEventListener("dragleave", () => {
+          zone.classList.remove("over");
+        });
+
+        zone.addEventListener("drop", e => {
+          e.preventDefault();
+          zone.classList.remove("over");
+          const slot = zone.querySelector(".slot");
+
+          if (draggedItem) {
+            if (slot.firstChild) {
+              document.getElementById("dragBank").appendChild(slot.firstChild);
+            }
+            slot.appendChild(draggedItem);
+            playSound(audioClick);
+          }
+        });
+      });
+
+      document.getElementById("dragBank").addEventListener("dragover", e => {
+        e.preventDefault();
+      });
+
+      document.getElementById("dragBank").addEventListener("drop", e => {
+        e.preventDefault();
+        if (draggedItem) {
+          document.getElementById("dragBank").appendChild(draggedItem);
+          playSound(audioClick);
+        }
+      });
+    }
+
+    function getSequenceScore() {
+      let score = 0;
+      document.querySelectorAll(".drop-zone").forEach(zone => {
+        const expected = zone.dataset.slot;
+        const item = zone.querySelector(".slot .drag-item");
+        if (item && item.dataset.order === expected) {
+          score++;
+        }
+      });
+      return score;
+    }
+
+    // ---------- checking ----------
+    function checkComprehension() {
+      let score = 0;
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+
+      if (q1 && q1.value === "correct") score++;
+      if (q2 && q2.value === "correct") score++;
+
+      return score;
+    }
+
+    function checkAll() {
+      const wordScore = getWordScore();
+      const compScore = checkComprehension();
+      const seqScore = getSequenceScore();
+
+      const total = wordScore + compScore + seqScore;
+      const maxScore = 8;
+
+      const sequenceFeedback = document.getElementById("sequenceFeedback");
+      if (seqScore === 4) {
+        sequenceFeedback.textContent = "Story order is correct!";
+        sequenceFeedback.className = "check-feedback correct";
+      } else {
+        sequenceFeedback.textContent = "Check the story order again.";
+        sequenceFeedback.className = "check-feedback wrong";
+      }
+
+      const finalMessage = document.getElementById("finalMessage");
+      if (total >= 6) {
+        finalMessage.textContent = `Great job! Score: ${total}/${maxScore}`;
+        finalMessage.className = "final-message correct";
+        playSound(audioFinish);
+      } else {
+        finalMessage.textContent = `Try again! Score: ${total}/${maxScore}`;
+        finalMessage.className = "final-message wrong";
+        playSound(audioWrong);
+      }
+    }
+
+    // ---------- timer ----------
+    let timeLeft = 15;
+    let timerInterval = null;
+
+    function startTimer() {
+      const timerDisplay = document.getElementById("time");
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          playSound(audioWrong);
+          alert("Time's up!");
+        }
+      }, 1000);
+    }
+
+    // ---------- reset ----------
+    function resetAll() {
+      clearInterval(timerInterval);
+      timeLeft = 15;
+      document.getElementById("time").textContent = timeLeft;
+
+      document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+      document.getElementById("sequenceFeedback").textContent = "";
+      document.getElementById("sequenceFeedback").className = "check-feedback";
+      document.getElementById("finalMessage").textContent = "";
+      document.getElementById("finalMessage").className = "final-message";
+
+      buildWordButtons();
+
+      const dragBank = document.getElementById("dragBank");
+      const items = Array.from(document.querySelectorAll(".drag-item"));
+      shuffle(items).forEach(item => dragBank.appendChild(item));
+
+      document.querySelectorAll(".slot").forEach(slot => {
+        if (slot.firstChild) dragBank.appendChild(slot.firstChild);
+      });
+
+      startTimer();
+    }
+
+    // ---------- init ----------
+    buildWordButtons();
+    setupDragAndDrop();
+    startTimer();
+  </script>
+</body>
+</html>
