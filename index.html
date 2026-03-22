@@ -156,44 +156,7 @@
       </div>
     </section>
 
-    <section class="card">
-      <h2>3. Sequence the Story</h2>
-      <div class="hint">Drag each change into the correct box. You can move them again if you need to fix them.</div>
-      <div class="row2" style="margin-top:14px;">
-        <div>
-          <div class="slot-label">1. First change</div>
-          <div class="drop-zone" data-slot="0"></div>
-        </div>
-        <div>
-          <div class="slot-label">2. Second change</div>
-          <div class="drop-zone" data-slot="1"></div>
-        </div>
-        <div>
-          <div class="slot-label">3. Third change</div>
-          <div class="drop-zone" data-slot="2"></div>
-        </div>
-        <div>
-          <div class="slot-label">4. Fourth change</div>
-          <div class="drop-zone" data-slot="3"></div>
-        </div>
-        <div>
-          <div class="slot-label">5. Fifth change</div>
-          <div class="drop-zone" data-slot="4"></div>
-        </div>
-      </div>
-      <div class="drag-bank" id="dragBank">
-        <div class="drag-item" draggable="true" data-value="mountain">mountain</div>
-        <div class="drag-item" draggable="true" data-value="sun">sun</div>
-        <div class="drag-item" draggable="true" data-value="cloud">cloud</div>
-        <div class="drag-item" draggable="true" data-value="rich man">rich man</div>
-        <div class="drag-item" draggable="true" data-value="wind">wind</div>
-      </div>
-      <div class="btnrow">
-        <button class="btn light" id="checkOrderBtn">Check Order</button>
-        <button class="btn secondary" id="resetOrderBtn">Reset Order</button>
-      </div>
-      <div class="score" id="orderFeedback"></div>
-    </section>
+    
   </div>
 
   <script>
@@ -386,66 +349,10 @@
       });
     });
 
-    // Drag and drop order
-    const correctOrder = ['rich man', 'sun', 'cloud', 'wind', 'mountain'];
-    const dropZones = document.querySelectorAll('.drop-zone');
-    const dragBank = document.getElementById('dragBank');
-    let dragged = null;
-
-    function addDragEvents(el){
-      el.addEventListener('dragstart', () => { dragged = el; });
-    }
-    document.querySelectorAll('.drag-item').forEach(addDragEvents);
-
-    dropZones.forEach(zone => {
-      zone.addEventListener('dragover', e => e.preventDefault());
-      zone.addEventListener('drop', e => {
-        e.preventDefault();
-        if(!dragged) return;
-        if(zone.children.length > 0) dragBank.appendChild(zone.children[0]);
-        zone.appendChild(dragged);
-        dragged = null;
-      });
-    });
-    dragBank.addEventListener('dragover', e => e.preventDefault());
-    dragBank.addEventListener('drop', e => {
-      e.preventDefault();
-      if(dragged) dragBank.appendChild(dragged);
-      dragged = null;
-    });
-
-    let orderCorrect = 0;
-    document.getElementById('checkOrderBtn').addEventListener('click', () => {
-      const feedback = document.getElementById('orderFeedback');
-      orderCorrect = 0;
-      dropZones.forEach((zone,i) => {
-        zone.style.borderColor = '#b9cce8';
-        zone.style.background = '#fbfdff';
-        const item = zone.querySelector('.drag-item');
-        if(item && item.dataset.value === correctOrder[i]){
-          zone.style.borderColor = '#91d2a0';
-          zone.style.background = '#f7fff8';
-          orderCorrect++;
-        } else {
-          zone.style.borderColor = '#efaaaa';
-          zone.style.background = '#fff7f7';
-        }
-      });
-      feedback.style.display = 'block';
-      feedback.textContent = `You got ${orderCorrect} / 5 in the correct order.`;
-    });
-
-    document.getElementById('resetOrderBtn').addEventListener('click', () => {
-      dropZones.forEach(zone => {
-        zone.style.borderColor = '#b9cce8';
-        zone.style.background = '#fbfdff';
-        if(zone.firstChild) dragBank.appendChild(zone.firstChild);
-      });
-      document.getElementById('orderFeedback').style.display = 'none';
-      orderCorrect = 0;
-    });
+    
   </script>
 </body>
 </html>
+
 
 
